@@ -12,7 +12,7 @@ Google I/O: AdMob, Kotlin e InstantApps
 
 ### Pasos
 
-0. Copiamos el siguiente código en nuestro MainActivity.xml el cual es el diseño de nuestro demo.
+0. Copiamos el siguiente código en nuestro activit_main.xml el cual es el diseño de nuestro demo.
 
 ```xml
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -66,5 +66,116 @@ Google I/O: AdMob, Kotlin e InstantApps
 
 </RelativeLayout>
 ```
+1. Copiamos el siguiente código en nuestro MainActivity.kt .
 
+```kotlin
+supportActionBar!!.hide()
+```
+
+2. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+fabNext = findViewById<View>(R.id.next_level_button) as FloatingActionButton
+app_title = findViewById<View>(R.id.app_title) as TextView
+app_contenido = findViewById<View>(R.id.app_contenido) as TextView
+ivFoto = findViewById<View>(R.id.ivFoto) as ImageView
+```
+
+3. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+fabNext!!.isEnabled = false
+fabNext!!.setOnClickListener { showInterstitial() }
+```
+
+4. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+mLevel = START_LEVEL
+```
+
+5. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+mInterstitialAd = newInterstitialAd()
+loadInterstitial()
+```
+
+6. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+private fun newInterstitialAd(): InterstitialAd {
+    val interstitialAd = InterstitialAd(this)
+      interstitialAd.adUnitId = getString(R.string.interstitial_ad_unit_id)
+        interstitialAd.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                fabNext!!.isEnabled = true
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                fabNext!!.isEnabled = true
+            }
+
+            override fun onAdClosed() {
+                goToNextLevel()
+            }
+      }
+      return interstitialAd
+}
+```
+
+7. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+private fun loadInterstitial() {
+      fabNext!!.isEnabled = false
+        val adRequest = AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build()
+      mInterstitialAd!!.loadAd(adRequest)
+}
+```
+
+8. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+private fun showInterstitial() {
+     if (mInterstitialAd != null && mInterstitialAd!!.isLoaded) {
+          mInterstitialAd!!.show()
+     } else {
+          Toast.makeText(this, "Add no Cargado", Toast.LENGTH_SHORT).show()
+          goToNextLevel()
+     }
+}
+```
+
+9. Copiamos el siguiente código en nuestro MainActivity.kt .
+
+```kotlin
+private fun goToNextLevel() {
+     if (mLevel == 0) {
+          app_title!!.text = "Hola"
+          app_contenido!!.setText(R.string.app_hola)
+          ivFoto!!.setImageResource(R.drawable.personas)
+     }
+     if (mLevel == 1) {
+          app_title!!.text = "Dog"
+          app_contenido!!.setText(R.string.app_dog)
+          ivFoto!!.setImageResource(R.drawable.dog)
+     }
+     if (mLevel == 2) {
+          app_title!!.text = "Cat"
+          app_contenido!!.setText(R.string.app_cat)
+          ivFoto!!.setImageResource(R.drawable.cat)
+     }
+     if (mLevel == 3) {
+          app_title!!.text = "Fish"
+          app_contenido!!.setText(R.string.app_pez)
+          ivFoto!!.setImageResource(R.drawable.fish)
+          mLevel = -1
+     }
+     ++mLevel
+     mInterstitialAd = newInterstitialAd()
+     loadInterstitial()
+}
+```
 Diapositivas: [Instant Apps.pdf](https://drive.google.com/open?id=1eItFsCLM0b7Lxd8qmzB-uJE1G8oHU-ID).
