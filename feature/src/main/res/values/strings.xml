@@ -1,0 +1,7 @@
+<resources>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="app_dog">Te brindamos medicamentos y comidas de gran calidad</string>
+    <string name="app_cat">Tambien ofrecemos cortes de pelo de gran calidad</string>
+    <string name="app_pez">Conocemos para que tu mascota permanesca feliz</string>
+    <string name="app_hola">Somos una organización dedicada a las mascotas</string>
+</resources>
